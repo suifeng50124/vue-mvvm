@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    // vue 数据劫持
+    let obj = {
+        a: 'a'
+    };
+    let test;
+    Object.defineProperty(obj, 'testProperty', {
+        configurable: true, //控制是否可以删除
+        // writable: true, //控制是否可以修改
+        // value: 'test',
+        enumerable: true,
+        get() { //取值的时候会调用
+            return test;
+        },
+        set(val) { //改值的时候会调用
+            console.log('set:', val)
+            test = val;
+        }
+    })
+    // delete obj.testProperty
+    obj.testProperty = 'change'
+    console.log(obj);
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            console.log(key)
+        }
+    }
+</script>
+</body>
+</html> 
