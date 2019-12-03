@@ -8,13 +8,13 @@
 </head>
 <body>
     <div id="app">
-        <p>{{a}}</p>
+        <p>{{test.a}}</p>
         <p>{{b}}</p>
     </div>
     <script src="mvvm.js"></script>
     <script>
         const mvvm = new Mvvm({
-            el: 'app',
+            el: '#app',
             data: {
                 test: {
                     a: 'a'

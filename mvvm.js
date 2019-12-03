@@ -14,6 +14,8 @@ function Mvvm(option = {}) {
             }
         })
     }
+
+    new compile(option.el, this);
 }
 
 function observe(data) {
@@ -41,6 +43,36 @@ function observe(data) {
     } else {
         return;
     }
+}
+
+function compile(el, vm) {
+    vm.$el = document.querySelector(el);
+    let fragment = document.createDocumentFragment();
+    console.log(vm.$el.firstChild)
+    while(child = vm.$el.firstChild) { //将APP中的内容存到内存中
+        fragment.appendChild(child)
+    }
+    replace(fragment)
+    function replace(fragment) {
+        fragment.childNodes.forEach(node => {
+            let text = node.textContent;
+            console.log(text)
+            let reg = /\{\{(.*)\}\}/;
+            if (node.nodeType === 3 && reg.test(text)) {
+                let arr = RegExp.$1.split('.');
+                console.log(arr)
+                let val = vm;
+                arr.forEach(key => {
+                    val = val[key];
+                })
+                node.textContent = text.replace(reg, val);
+            }
+            if (node.childNodes) {
+                replace(node)
+            }
+        });
+    }
+    vm.$el.appendChild(fragment); //回写到页面
 }
 
 // function observe(data) {
